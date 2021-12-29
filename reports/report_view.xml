@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="invoice_format_layout_1">
+    <t t-call="web.html_container">
+<t t-if="not o" t-set="o" t-value="doc"/>
+<t t-if="not company">
+<!--  Multicompany  -->
+<t t-if="company_id">
+<t t-set="company" t-value="company_id"/>
+</t>
+<t t-elif="o and 'company_id' in o">
+<t t-set="company" t-value="o.company_id.sudo()"/>
+</t>
+<t t-else="else">
+<t t-set="company" t-value="res_company"/>
+</t>
+</t>
+<div class="header" t-att-style="report_header_style">
+    <div class="row">
+<!--         <div class="col-4" style="text-align:right;">-->
+<!--            <h6>CIN: </h6>-->
+<!--            <h6>GSTIN: <t t-esc="company.vat"/>  </h6>-->
+<!--&lt;!&ndash;            <h6><t t-esc="company.partner_id.name"/> </h6>&ndash;&gt;-->
+<!--            <h6><t t-esc="company.street"/>,<t t-esc="company.street2"/> </h6>-->
+<!--            <h6><t t-esc="company.city"/>,<t t-esc="company.state_id.name"/>-<t t-esc="company.zip"/> </h6>-->
+<!--            <h6>t:<t t-esc="company.phone"/> </h6>-->
+<!--            <h6><t t-esc="company.email"/> </h6>-->
+
+
+
+<!--        </div>-->
+<div class="col-6" >
+
+       <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height:70px;align:center;" alt="Logo"/>
+    </div>
+        <div class="col-6" >
+
+            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('QR', o.testing(), 200, 200)" style="width:150px;height:150px" align="right"/>
+
+
+<!--       <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height:70px;align:center;" alt="Logo"/>-->
+    </div>
+
+<!--        <div class="col-4" style="text-align:right;">-->
+<!--            <h6>CIN: </h6>-->
+<!--            <h6>GSTIN: <t t-esc="company.vat"/>  </h6>-->
+<!--&lt;!&ndash;            <h6><t t-esc="company.partner_id.name"/> </h6>&ndash;&gt;-->
+<!--            <h6><t t-esc="company.street"/>,<t t-esc="company.street2"/> </h6>-->
+<!--            <h6><t t-esc="company.city"/>,<t t-esc="company.state_id.name"/>-<t t-esc="company.zip"/> </h6>-->
+<!--            <h6>t:<t t-esc="company.phone"/> </h6>-->
+<!--            <h6><t t-esc="company.email"/> </h6>-->
+
+
+
+<!--        </div>-->
+
+<!--        <div class="col-6" style="text-align:right;">-->
+<!--            <h6><t t-esc="company.partner_id.name"/> </h6>-->
+<!--            <h6><t t-esc="company.street"/> </h6>-->
+<!--            <h6><t t-esc="company.street2"/> </h6>-->
+<!--            <h6><t t-esc="company.city"/> </h6>-->
+<!--            <h6><t t-esc="company.state_id.name"/> </h6>-->
+<!--            <h6><t t-esc="company.zip"/> </h6>-->
+
+
+<!--        </div>-->
+<!---->
+    </div>
+</div>
+<div class="col-9 text-right" style="margin-top:22px;" t-field="company.report_header" name="moto">
+<div t-field="company.partner_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
+</div>
+<div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+<t t-raw="0"/>
+</div>
+<div class="footer o_background_footer">
+<div>
+<div t-field="company.report_footer"/>
+<div t-if="report_type == 'pdf'" class="text-muted">
+    <hr style="text-color:orange; width:100%;"></hr>
+     <div class="row">
+         <div class="col-6" style="text-align:left;">
+<!--            <h6>CIN: </h6>-->
+<!--            <h6>GSTIN: <t t-esc="company.vat"/>  </h6>-->
+             <h6><b><t t-esc="company.name"/></b></h6>
+             <h6><b><t t-esc="company.street"/>,<t t-esc="company.street2"/></b></h6>
+             <h6><b><t t-esc="company.city"/>,<t t-esc="company.state_id.name"/>-<t t-esc="company.zip"/> </b></h6>
+             <h6><b><t t-esc="company.phone"/> </b></h6>
+             <h6><b><t t-esc="company.email"/> </b></h6>
+
+
+
+        </div>
+<!--<div class="col-4" style="text-align:center;">-->
+
+<!--       <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height:70px;align:center;" alt="Logo"/>-->
+<!--    </div>-->
+        <div class="col-6" style="text-align:right;">
+            <h6><b><t t-esc="company.ar_name"/> </b></h6>
+            <h6><b><t t-esc="company.ar_street"/>,<t t-esc="company.ar_street2"/> </b></h6>
+            <h6><b><t t-esc="company.ar_city"/>,<t t-esc="company.ar_state"/><t t-esc="company.ar_zip"/></b> </h6>
+            <h6><b><t t-esc="company.ar_phone"/> </b></h6>
+<!--            <h6><t t-esc="company.email"/> </h6>-->
+        </div>
+
+
+<!--            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('QR', o.testing(), 200, 200)" style="width:100px;height:100px" align="right"/>-->
+
+
+<!--       <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height:70px;align:center;" alt="Logo"/>-->
+<!--    </div>-->
+
+<!--        <div class="col-4" style="text-align:right;">-->
+<!--            <h6>CIN: </h6>-->
+<!--            <h6>GSTIN: <t t-esc="company.vat"/>  </h6>-->
+<!--&lt;!&ndash;            <h6><t t-esc="company.partner_id.name"/> </h6>&ndash;&gt;-->
+<!--            <h6><t t-esc="company.street"/>,<t t-esc="company.street2"/> </h6>-->
+<!--            <h6><t t-esc="company.city"/>,<t t-esc="company.state_id.name"/>-<t t-esc="company.zip"/> </h6>-->
+<!--            <h6>t:<t t-esc="company.phone"/> </h6>-->
+<!--            <h6><t t-esc="company.email"/> </h6>-->
+
+
+
+
+<!--     <div class="row">-->
+<!--        <div class="col-6" style="text-align:right;">-->
+<!--                        Page:-->
+<!--                <span class="page"/>-->
+<!--                         /-->
+<!--                 <span class="topage"/>-->
+<!--        </div>-->
+<!--        <div class="col-6" style="text-align:right;">-->
+<!--            <span style="color:gray;"> Powered by Enzapps</span>-->
+<!--        </div>-->
+<!--    </div>-->
+</div>
+</div>
+</div>
+</div>
+    </t>
+    </template>
+<template id="invoice_format_view_1">
+    		<t t-call="web.html_container">
+    	    	<t t-foreach="docs" t-as="o">
+            <t t-call="jasaraeinvoice.invoice_format_layout_1">
+                <div class="page">
+
+    <h5 style="background-color:#c1cdcd"><center><b>TAX INVOICE/الفواتير الضريبية</b></center></h5>
+                        <table style="width:100%">
+ <tr >
+                                            <td colspan="1" style="border-top:gray;height:20px;border: 1px solid black;"><b>Invoice</b>#<t t-esc="o.custom_invoice_no"/></td>
+                                            <td colspan="4" style="text-align:right;border: 1px solid black;"><t t-esc="o.custom_invoice_no"/>:الفواتير</td>
+<!--                                            <td colspan="1" style="border: 1px solid black;"><center><b>Date تاريخ</b></center></td>-->
+<!--                                            <td colspan="2" style="border: 1px solid black;"><center><b>Invoice No.رقم الفاتورة</b></center></td>-->
+                                        </tr>
+                            <tr >
+                                            <td colspan="1" style="height:20px;border: 1px solid black;"><b>Invoice Date:</b><t t-esc="o.invoice_date"/></td>
+<!--                                            <td colspan="4" style="text-align:right;border: 1px solid black;"><t t-esc="o.invoice_date"/> تاريخ الفاتورة:</td>-->
+                                            <td colspan="4" style="text-align:right;border: 1px solid black;"><t t-esc="o.arabic_date"/>:تاريخ الفاتورة</td>
+<!--                                            <td colspan="1" style="border: 1px solid black;"><center><b>Date تاريخ</b></center></td>-->
+<!--                                            <td colspan="2" style="border: 1px solid black;"><center><b>Invoice No.رقم الفاتورة</b></center></td>-->
+                                        </tr>
+                            <tr >
+                                            <td colspan="1" style="border-top:gray;height:20px;border: 1px solid black;"><b>Date of Supply:</b><t t-esc="o.date_of_supply"/></td>
+                                            <td colspan="4" style="border-top:gray;text-align:right;border: 1px solid black;"><t t-esc="o.date_of_supply"/>:تاريخ التوري</td>
+<!--                                            <td colspan="1" style="border: 1px solid black;"><center><b>Date تاريخ</b></center></td>-->
+<!--                                            <td colspan="2" style="border: 1px solid black;"><center><b>Invoice No.رقم الفاتورة</b></center></td>-->
+                                        </tr>
+                            <tr >
+                                            <td colspan="1" style="border-top:gray;height:20px;border: 1px solid black;"><b>Project Name:</b><t t-esc="o.project_name"/></td>
+                                            <td colspan="4" style="border-top:gray;text-align:right;border: 1px solid black;"><t t-esc="o.project_name"/>:اسم المشروع</td>
+<!--                                            <td colspan="1" style="border: 1px solid black;"><center><b>Date تاريخ</b></center></td>-->
+<!--                                            <td colspan="2" style="border: 1px solid black;"><center><b>Invoice No.رقم الفاتورة</b></center></td>-->
+                                        </tr>
+                             <tr >
+                                            <td colspan="1" style="border-top:gray;height:20px;border: 1px solid black;"><b>Contract Number:</b><t t-esc="o.contract_number"/></td>
+                                            <td colspan="4" style="border-top:gray;text-align:right;border: 1px solid black;"><t t-esc="o.contract_number"/>:رقم التعاقد</td>
+<!--                                            <td colspan="1" style="border: 1px solid black;"><center><b>Date تاريخ</b></center></td>-->
+<!--                                            <td colspan="2" style="border: 1px solid black;"><center><b>Invoice No.رقم الفاتورة</b></center></td>-->
+                                        </tr>
+                            <tr >
+                                            <td colspan="1" style="border-top:gray;height:20px;border: 1px solid black;"><b>Service Order Number:</b><t t-esc="o.service_number"/></td>
+                                            <td colspan="4" style="border-top:gray;text-align:right;border: 1px solid black;"><t t-esc="o.service_number"/>:رقم طلب الخدمة</td>
+<!--                                            <td colspan="1" style="border: 1px solid black;"><center><b>Date تاريخ</b></center></td>-->
+<!--                                            <td colspan="2" style="border: 1px solid black;"><center><b>Invoice No.رقم الفاتورة</b></center></td>-->
+                                        </tr>
+<!--                             <tr >-->
+<!--                                            <td colspan="1" style="border-top:gray;height:20px;border: 1px solid black;"><b>Purchase Number:</b><t t-esc="o.purchase_number"/></td>-->
+<!--                                            <td colspan="4" style="border-top:gray;text-align:right;border: 1px solid black;"><t t-esc="o.purchase_number"/> رقم الشراء:</td>-->
+<!--&lt;!&ndash;                                            <td colspan="1" style="border: 1px solid black;"><center><b>Date تاريخ</b></center></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <td colspan="2" style="border: 1px solid black;"><center><b>Invoice No.رقم الفاتورة</b></center></td>&ndash;&gt;-->
+<!--                                        </tr>-->
+<!--                            <tr >-->
+<!--                                            <td colspan="1" style="height:20px;border: 1px solid black;"><b></b><t t-esc="o.invoice_date"/></td>-->
+<!--                                            <td colspan="4" style="text-align:right;border: 1px solid black;"></td>-->
+<!--&lt;!&ndash;                                            <td colspan="1" style="border: 1px solid black;"><center><b>Date تاريخ</b></center></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <td colspan="2" style="border: 1px solid black;"><center><b>Invoice No.رقم الفاتورة</b></center></td>&ndash;&gt;-->
+<!--                                        </tr>-->
+                            <tr >
+                                            <td colspan="1" style="height:20px;border: 1px solid black;"></td>
+                                            <td colspan="4" style="text-align:right;border: 1px solid black;"></td>
+<!--                                            <td colspan="1" style="border: 1px solid black;"><center><b>Date تاريخ</b></center></td>-->
+<!--                                            <td colspan="2" style="border: 1px solid black;"><center><b>Invoice No.رقم الفاتورة</b></center></td>-->
+                                        </tr>
+                            <tr >
+                                            <td colspan="1" style="height:20px;border: 1px solid black;"><b>Supplier:</b></td>
+                                            <td colspan="4" style="text-align:right;border: 1px solid black;">:المورد</td>
+<!--                                            <td colspan="1" style="border: 1px solid black;"><center><b>Date تاريخ</b></center></td>-->
+<!--                                            <td colspan="2" style="border: 1px solid black;"><center><b>Invoice No.رقم الفاتورة</b></center></td>-->
+                                        </tr>
+                            <tr >
+                                            <td colspan="1" style="height:20px;border: 1px solid black;"><t t-esc="o.company_id.name"/></td>
+                                            <td colspan="4" style="text-align:right;border: 1px solid black;"><t t-esc="o.company_id.ar_name"/></td>
+<!--                                            <td colspan="1" style="border: 1px solid black;"><center><b>Date تاريخ</b></center></td>-->
+<!--                                            <td colspan="2" style="border: 1px solid black;"><center><b>Invoice No.رقم الفاتورة</b></center></td>-->
+                                        </tr>
+                            <tr >
+                                <td colspan="1" style="height:20px;border: 1px solid black;"><b>Address Of Supplier:</b><t t-esc="o.company_id.street"/><t t-esc="o.company_id.street2"/><t t-esc="o.company_id.city"/><t t-esc="o.company_id.state_id.name"/><t t-esc="o.company_id.zip"/><t t-esc="o.company_id.country_id.name"/></td>
+
+                                <td colspan="4" style="text-align:right;border: 1px solid black;"><t t-esc="o.company_id.ar_street"/><t t-esc="o.company_id.ar_street2"/><t t-esc="o.company_id.ar_city"/><t t-esc="o.company_id.ar_state"/><t t-esc="o.company_id.ar_zip"/><t t-esc="o.company_id.ar_country"/></td>
+
+<!--                                            <td colspan="1" style="border: 1px solid black;"><center><b>Date تاريخ</b></center></td>-->
+<!--                                            <td colspan="2" style="border: 1px solid black;"><center><b>Invoice No.رقم الفاتورة</b></center></td>-->
+                                        </tr>
+                            <tr >
+                                            <td colspan="1" style="height:20px;border: 1px solid black;"><b>Phone:</b><t t-esc="o.company_id.phone"/></td>
+                                            <td colspan="4" style="text-align:right;border: 1px solid black;"><t t-esc="o.company_id.ar_phone"/>:هاتف</td>
+<!--                                            <td colspan="1" style="border: 1px solid black;"><center><b>Date تاريخ</b></center></td>-->
+<!--                                            <td colspan="2" style="border: 1px solid black;"><center><b>Invoice No.رقم الفاتورة</b></center></td>-->
+                                        </tr>
+                            <tr >
+                                            <td colspan="1" style="height:20px;border: 1px solid black;"><b>Email:</b><t t-esc="o.company_id.email"/></td>
+                                            <td colspan="4" style="text-align:right;border: 1px solid black;"><t t-esc="o.company_id.email"/>:بريد الالكتروني</td>
+<!--                                            <td colspan="1" style="border: 1px solid black;"><center><b>Date تاريخ</b></center></td>-->
+<!--                                            <td colspan="2" style="border: 1px solid black;"><center><b>Invoice No.رقم الفاتورة</b></center></td>-->
+                                        </tr>
+                            <tr >
+                                            <td colspan="1" style="height:20px;border: 1px solid black;"><b>Supplier Tax Identification Number:</b></td>
+                                            <td colspan="4" style="text-align:right;border: 1px solid black;">رقم السجل الضريبي للمورد:</td>
+<!--                                            <td colspan="1" style="border: 1px solid black;"><center><b>Date تاريخ</b></center></td>-->
+<!--                                            <td colspan="2" style="border: 1px solid black;"><center><b>Invoice No.رقم الفاتورة</b></center></td>-->
+                                        </tr>
+                            <tr >
+                                            <td colspan="1" style="height:20px;border: 1px solid black;"><t t-esc="o.company_id.vat"/></td>
+                                            <td colspan="4" style="text-align:right;border: 1px solid black;"><t t-esc="o.company_id.ar_tax_id"/></td>
+<!--                                            <td colspan="1" style="border: 1px solid black;"><center><b>Date تاريخ</b></center></td>-->
+<!--                                            <td colspan="2" style="border: 1px solid black;"><center><b>Invoice No.رقم الفاتورة</b></center></td>-->
+                                        </tr>
+                            <tr >
+                                            <td colspan="1" style="height:20px;border: 1px solid black;"></td>
+                                            <td colspan="4" style="text-align:right;border: 1px solid black;"></td>
+<!--                                            <td colspan="1" style="border: 1px solid black;"><center><b>Date تاريخ</b></center></td>-->
+<!--                                            <td colspan="2" style="border: 1px solid black;"><center><b>Invoice No.رقم الفاتورة</b></center></td>-->
+                                        </tr>
+                            <tr >
+                                            <td colspan="1" style="height:20px;border: 1px solid black;"><b>CUSTOMER:</b></td>
+                                            <td colspan="4" style="text-align:right;border: 1px solid black;">:العميل</td>
+<!--                                            <td colspan="1" style="border: 1px solid black;"><center><b>Date تاريخ</b></center></td>-->
+<!--                                            <td colspan="2" style="border: 1px solid black;"><center><b>Invoice No.رقم الفاتورة</b></center></td>-->
+                                        </tr>
+                            <tr >
+                                <td colspan="1" style="height:20px;border: 1px solid black;"><t t-esc="o.partner_id.name"/></td>
+                                            <td colspan="4" style="text-align:right;border: 1px solid black;"><t t-esc="o.partner_id.ar_name"/></td>
+<!--                                            <td colspan="1" style="border: 1px solid black;"><center><b>Date تاريخ</b></center></td>-->
+<!--                                            <td colspan="2" style="border: 1px solid black;"><center><b>Invoice No.رقم الفاتورة</b></center></td>-->
+                                        </tr>
+                            <tr >
+                                 <td colspan="1" style="height:20px;border: 1px solid black;"><t t-esc="o.partner_id.street"/><t t-esc="o.partner_id.street2"/><t t-esc="o.partner_id.city"/><t t-esc="o.partner_id.state_id.name"/><t t-esc="o.partner_id.zip"/><t t-esc="o.partner_id.country_id.name"/>VAT Reg#<t t-esc="o.partner_id.vat"/></td>
+
+                                            <td colspan="4" style="text-align:right;border: 1px solid black;"><t t-esc="o.partner_id.ar_street"/><t t-esc="o.partner_id.ar_street2"/><t t-esc="o.partner_id.ar_city"/><t t-esc="o.partner_id.ar_state"/><t t-esc="o.partner_id.ar_zip"/><t t-esc="o.partner_id.ar_country"/><t t-esc="o.partner_id.ar_tax_id"/>رقم التسجيل الضريبي: </td>
+          </tr>
+                            <tr >
+                                 <td colspan="1" style="height:20px;border: 1px solid black;"><b>OTHER INFORMATION </b></td>
+
+                                            <td colspan="4" style="text-align:right;border: 1px solid black;">معلومات أخرى </td>
+                            </tr>
+                            <tr >
+                                 <td colspan="1" style="height:20px;border: 1px solid black;">Purchase Order Number:<t t-esc="o.purchase_number"/></td>
+
+                                            <td colspan="4" style="text-align:right;border: 1px solid black;"> <t t-esc="o.purchase_number"/>:رقم  أمر الشراء</td>
+                                </tr>
+                            <tr >
+                                 <td colspan="1" style="height:20px;border: 1px solid black;">Payment Due Date: within <t t-esc="o.invoice_payment_term_id.name"/> days of invoice date</td>
+
+                                            <td colspan="4" style="text-align:right;border: 1px solid black;"> تاريخ الاستحقاق:خلال <t t-esc="o.invoice_payment_term_id.name"/> يوم من تاريخ الفاتورة</td>
+                                     </tr>
+<!--                            <tr >-->
+<!--                                 <td colspan="1" style="height:40px;border: 1px solid black;"></td>-->
+
+<!--                                            <td colspan="4" style="text-align:right;border: 1px solid black;"> </td>-->
+<!--                                     </tr>-->
+                            <tr >
+                                <td colspan="1" style="background-color:#c1cdcd;width:50%;height:10px;border: 1px solid black;"><b>NATURE OF GOODS AND SERVICES  تفاصيل السلع أو الخدمات </b></td>
+
+                                <td colspan="1" style="width:10%;background-color:#c1cdcd;text-align:right;border: 1px solid black;"><b>TAXABLE AMOUNT   المبلغ الخاضع للضريبة</b></td>
+                                <td colspan="1" style="background-color:#c1cdcd;height:10px;border: 1px solid black;"><b>TAX RATE<br></br>نسبة الضريبة</b></td>
+
+                                <td colspan="1" style="width:10%;background-color:#c1cdcd;text-align:right;border: 1px solid black;"><b>TAX(SAR)<br></br>الضريبة (ريال سعودي)</b></td>
+                                <td colspan="1" style="width:20%;background-color:#c1cdcd;text-align:right;border: 1px solid black;"><center><b>TOTAL المجموع</b></center></td>
+                                     </tr>
+<!--                            <t t-foreach="o.invoice_line_ids" t-as="m">-->
+                                <t t-foreach="o.invoice_line_ids.filtered(lambda a:a.is_rounding_line != True)" t-as="m">
+                                        <tr>
+                                           <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center><t t-esc="m.product_id.name"/><t t-esc="m.product_id.ar_name"/></center></td>
+                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center><t t-esc="'%.2f' % m.price_unit"/></center></td>
+                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center><b><t t-esc="m.tax_ids.name"/></b></center></td>
+                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center><t t-esc="'%.2f' % m.tax()"/></center></td>
+<!--                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center><b><t t-esc="m.tax()"/></b></center></td>-->
+                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center><t t-esc="'%.2f' % (m.price())"/></center></td>
+<!--                                            <td-->
+                                        </tr>
+                            </t>
+                                 <tr>
+                                     <td colspan="1" style="height:20px;border: 1px solid black;border-bottom:0px;"><center><b>TOTAL AMOUNT DUE/الإجمالي مع الضريبة</b></center></td>
+                                            <td colspan="3" style="border: 1px solid black;border-bottom:0px;"><center>SAR ريال سعودي</center></td>
+                                     <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center><b><t t-esc="'%.2f' % o.amount_residual"/></b></center></td>
+<!--                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center><b></b></center></td>-->
+<!--                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center><b><t t-esc="m.price_subtotal"/></b></center></td>-->
+<!--                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center><t t-esc="m.price_"/></center></td>-->
+<!--                                            <td-->
+                                        </tr>
+                            <tr>
+                                           <td colspan="1" style="height:20px;border: 1px solid black;border-bottom:0px;"></td>
+                                            <td colspan="4" style="border: 1px solid black;border-bottom:0px;"></td>
+<!--                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center></center></td>-->
+<!--                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center><b></b></center></td>-->
+<!--                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center><b><t t-esc="m.price_subtotal"/></b></center></td>-->
+<!--                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center><t t-esc="m.price_"/></center></td>-->
+<!--                                            <td-->
+                                        </tr>
+<!--                            <tr>-->
+<!--                                <td colspan="1" style="border: 1px solid black;"><b>Please transfer the amount through direct transfer to our following bank account:</b><br></br><b>NAME OF ACCOUNT:</b><t t-esc="o.company_bank_id.partner_id.name"/><br></br><b>Name of Bank</b><t t-esc="o.company_bank_id.bank_id.name"/><br></br><b>IBAN Number:</b><t t-esc="o.company_bank_id.bank_id.code"/></td>-->
+<!--                                            <td colspan="4" style="border: 1px solid black;"><b> :التالمصرفياليرجى تحويل المبلغ من خلال التحويل المباشر على حسابنا</b><br/></td>-->
+<!--&lt;!&ndash;                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center></center></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center><b></b></center></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center><b><t t-esc="m.price_subtotal"/></b></center></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center><t t-esc="m.price_"/></center></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <td&ndash;&gt;-->
+<!--                                        </tr>-->
+                            <tr>
+                                <td colspan="1" style="border:1px solid black;border-bottom:0px;"><b>Please transfer the amount through direct transfer to our following bank account:</b></td>
+                                <td colspan="4" style="border:1px solid black;border-bottom:0px;"><b>يرجى تحويل المبلغ من خلال التحويل المباشر على حسابنا المصرفي التالي:</b></td>
+                            </tr>
+                            <tr>
+                                <td colspan="1" style="border:1px solid black;border-bottom:0px;border-top:0px;"><b>Name of Account:<t t-esc="o.company_bank_id.partner_id.name"/> </b></td>
+                                <td colspan="2" style="border:1px solid black;border-bottom:0px;border-top:0px;border-right:0px;text-align:right"><b><t t-esc="o.company_bank_id.partner_id.ar_name"/></b></td>
+                                <td colspan="2" style="border:1px solid black;border-bottom:0px;border-top:0px;text-align:right;border-left:0px;"><b>:اسم الحساب</b></td>
+                            </tr>
+                            <tr>
+                                <td colspan="1" style="border:1px solid black;border-bottom:0px;border-top:0px;"><b>Name of Bank:<t t-esc="o.company_bank_id.bank_id.name"/></b></td>
+                                <td colspan="2" style="border:1px solid black;border-bottom:0px;border-top:0px;border-right:0px;text-align:right"><b><t t-esc="o.company_bank_id.bank_id.ar_name"/></b></td>
+                                <td colspan="2" style="border:1px solid black;border-bottom:0px;border-top:0px;border-left:0px;text-align:right"><b>:اسم البنك</b></td>
+                            </tr>
+                            <tr>
+                                <td colspan="1" style="border:1px solid black;border-top:0px;"><b>IBAN number:<t t-esc="o.company_bank_id.bank_id.code"/></b></td>
+                                <td colspan="2" style="border:1px solid black;border-top:0px;text-align:right;border-right:0px"><b><t t-esc="o.company_bank_id.bank_id.code"/></b></td>
+                                <td colspan="2" style="border:1px solid black;border-top:0px;text-align:right;border-left:0px"><b>:رقم ايبان</b></td>
+                            </tr>
+                        </table>
+                            <br></br>
+                            <br></br>
+<!--                            <br></br>-->
+<!--                            <br></br>-->
+<!--                            <br></br>-->
+<!--                            <br></br>-->
+<!--                            <br></br>-->
+<!--                            <br></br>-->
+                    <table style="width:100%">
+
+                            <tr>
+                                <td colspan="1"><center><b>Project Accountant </b></center></td>
+                                <td colspan="4" > <center><b>Company Stamp</b></center></td>
+<!--                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center></center></td>-->
+<!--                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center><b></b></center></td>-->
+<!--                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center><b><t t-esc="m.price_subtotal"/></b></center></td>-->
+<!--                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center><t t-esc="m.price_"/></center></td>-->
+<!--                                            <td-->
+                                        </tr>
+                            <tr>
+                                <td colspan="1"><center><b>مايور بينغل </b></center></td>
+                                <td colspan="4" ><center><b>ختم الشركة</b></center></td>
+<!--                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center></center></td>-->
+<!--                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center><b></b></center></td>-->
+<!--                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center><b><t t-esc="m.price_subtotal"/></b></center></td>-->
+<!--                                            <td colspan="1" style="border: 1px solid black;border-bottom:0px;"><center><t t-esc="m.price_"/></center></td>-->
+<!--                                            <td-->
+                                        </tr>
+
+              </table>
+                </div>
+            </t>
+                </t>
+            </t>
+</template>
+
+</odoo>
